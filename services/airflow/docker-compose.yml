@@ -1,0 +1,73 @@
+# services/airflow/docker-compose.yml
+version: "3.8"
+
+x-airflow-common: &airflow-common
+  build:
+    context: .
+    dockerfile: Dockerfile
+  environment:
+  
+    
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+    AIRFLOW__CORE__ENABLE_XCOM_PICKLING: "true"
+  volumes:
+    # DAG-и (как и раньше)
+    - ./dags:/opt/airflow/dags
+    # Логи Airflow
+    - ./logs:/opt/airflow/logs
+    # ВЕСЬ репозиторий в /opt/airflow
+    # чтобы относительные пути ../../../data и т.п. из DAG-ов резолвились в /opt/airflow/*
+    - ../../:/opt/airflow:rw
+    # Доступ к Docker для шага деплоя (docker compose из BashOperator)
+    - /var/run/docker.sock:/var/run/docker.sock
+  user: "${AIRFLOW_UID:-50000}:0"
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow -d airflow || exit 1"]
+      interval: 5s
+      retries: 10
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+
+  airflow-init:
+    <<: *airflow-common
+    entrypoint: >
+      bash -lc "airflow db init &&
+                airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com --password admin || true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+
+
+volumes:
+  postgres-db-volume:
