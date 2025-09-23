@@ -161,7 +161,7 @@ def main():
         # Log model using sklearn flavor (нет предупреждения про artifact_path)
         mlflow.sklearn.log_model(
             sk_model=model,
-            name="model",
+            artifact_path="model",
             signature=signature,
             input_example=input_example,
         )

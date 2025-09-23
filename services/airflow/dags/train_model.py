@@ -1,6 +1,7 @@
 # services/airflow/dags/train_model.py
 from pathlib import Path
 import mlflow
+import os
 import subprocess
 import pendulum
 from datetime import timedelta
@@ -30,7 +31,7 @@ def run_training():
         ["python", "-u", str(TRAIN_SCRIPT)],
         check=True,
         cwd=str(REPO_ROOT),
-        env={"PYTHONUNBUFFERED": "1"},
+        env={**os.environ, "PYTHONUNBUFFERED": "1"},
     )
 
 with DAG(
@@ -38,6 +39,7 @@ with DAG(
     description="Train RF on processed wine data",
     schedule="*/5 * * * *",
     start_date=pendulum.datetime(2025, 9, 21, 0, 5, tz="UTC"),
+    #start_date=pendulum.now("UTC").subtract(days=1),
     catchup=False,
     tags=["wine", "stage2"],
 ) as dag:

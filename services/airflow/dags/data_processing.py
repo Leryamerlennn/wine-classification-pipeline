@@ -46,6 +46,7 @@ with DAG(
     description="Wine Classifier - Stage 1",
     schedule="*/5 * * * *",
     start_date=pendulum.datetime(2025, 9, 21, 0, 5, tz="UTC"),
+    #start_date=pendulum.now("UTC").subtract(days=1),
     catchup=False,
     tags=["wine", "stage1"],
 ) as dag:

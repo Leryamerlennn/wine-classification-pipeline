@@ -1,6 +1,0 @@
-artifact_location: file:///Users/valerianeganova/wine-classification-pipeline/mlruns/956780136263147102
-creation_time: 1758630875048
-experiment_id: '956780136263147102'
-last_update_time: 1758630875048
-lifecycle_stage: active
-name: wine_random_forest

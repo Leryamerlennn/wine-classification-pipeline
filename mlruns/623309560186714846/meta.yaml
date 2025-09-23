@@ -1,0 +1,6 @@
+artifact_location: file:///opt/airflow/mlruns/623309560186714846
+creation_time: 1758659237273
+experiment_id: '623309560186714846'
+last_update_time: 1758659237273
+lifecycle_stage: active
+name: wine_random_forest

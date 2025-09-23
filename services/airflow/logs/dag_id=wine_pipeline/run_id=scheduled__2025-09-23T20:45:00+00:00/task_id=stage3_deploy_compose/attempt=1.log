@@ -1,0 +1,190 @@
+[2025-09-23T20:52:05.597+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-09-23T20:52:05.624+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: wine_pipeline.stage3_deploy_compose scheduled__2025-09-23T20:45:00+00:00 [queued]>
+[2025-09-23T20:52:05.635+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: wine_pipeline.stage3_deploy_compose scheduled__2025-09-23T20:45:00+00:00 [queued]>
+[2025-09-23T20:52:05.636+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 4
+[2025-09-23T20:52:05.653+0000] {taskinstance.py:2888} INFO - Executing <Task(BashOperator): stage3_deploy_compose> on 2025-09-23 20:45:00+00:00
+[2025-09-23T20:52:05.665+0000] {standard_task_runner.py:72} INFO - Started process 465 to run task
+[2025-09-23T20:52:05.669+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'wine_pipeline', 'stage3_deploy_compose', 'scheduled__2025-09-23T20:45:00+00:00', '--job-id', '248', '--raw', '--subdir', 'DAGS_FOLDER/wine_pipeline.py', '--cfg-path', '/tmp/tmpjthfi_g1']
+[2025-09-23T20:52:05.673+0000] {standard_task_runner.py:105} INFO - Job 248: Subtask stage3_deploy_compose
+[2025-09-23T20:52:05.748+0000] {task_command.py:467} INFO - Running <TaskInstance: wine_pipeline.stage3_deploy_compose scheduled__2025-09-23T20:45:00+00:00 [running]> on host a72da1fa20c9
+[2025-09-23T20:52:05.882+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='wine_pipeline' AIRFLOW_CTX_TASK_ID='stage3_deploy_compose' AIRFLOW_CTX_EXECUTION_DATE='2025-09-23T20:45:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-09-23T20:45:00+00:00'
+[2025-09-23T20:52:05.888+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-09-23T20:52:05.915+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2025-09-23T20:52:05.917+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'docker compose -f /opt/***/code/deployment/docker-compose.yml up -d --build']
+[2025-09-23T20:52:05.937+0000] {subprocess.py:99} INFO - Output:
+[2025-09-23T20:52:06.067+0000] {subprocess.py:106} INFO - time="2025-09-23T20:52:06Z" level=warning msg="/opt/***/code/deployment/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[2025-09-23T20:52:06.076+0000] {subprocess.py:106} INFO - time="2025-09-23T20:52:06Z" level=warning msg="Docker Compose is configured to build using Bake, but buildx isn't installed"
+[2025-09-23T20:52:06.386+0000] {subprocess.py:106} INFO - #0 building with "default" instance using docker driver
+[2025-09-23T20:52:06.387+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:06.387+0000] {subprocess.py:106} INFO - #1 [api internal] load build definition from Dockerfile
+[2025-09-23T20:52:06.388+0000] {subprocess.py:106} INFO - #1 transferring dockerfile: 264B 0.0s done
+[2025-09-23T20:52:06.389+0000] {subprocess.py:106} INFO - #1 DONE 0.0s
+[2025-09-23T20:52:06.389+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:06.390+0000] {subprocess.py:106} INFO - #2 [api internal] load metadata for docker.io/library/python:3.10-slim
+[2025-09-23T20:52:08.008+0000] {subprocess.py:106} INFO - #2 DONE 1.8s
+[2025-09-23T20:52:08.114+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:08.115+0000] {subprocess.py:106} INFO - #3 [api internal] load .dockerignore
+[2025-09-23T20:52:08.116+0000] {subprocess.py:106} INFO - #3 transferring context: 2B done
+[2025-09-23T20:52:08.116+0000] {subprocess.py:106} INFO - #3 DONE 0.0s
+[2025-09-23T20:52:08.117+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:08.118+0000] {subprocess.py:106} INFO - #4 [api internal] load build context
+[2025-09-23T20:52:08.118+0000] {subprocess.py:106} INFO - #4 transferring context: 833B 0.0s done
+[2025-09-23T20:52:08.119+0000] {subprocess.py:106} INFO - #4 DONE 0.0s
+[2025-09-23T20:52:08.119+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:08.120+0000] {subprocess.py:106} INFO - #5 [api 1/5] FROM docker.io/library/python:3.10-slim@sha256:f8081b61393cc16b2339d377bb523a5646cdd28fc6105612b3893c405d27f730
+[2025-09-23T20:52:08.120+0000] {subprocess.py:106} INFO - #5 resolve docker.io/library/python:3.10-slim@sha256:f8081b61393cc16b2339d377bb523a5646cdd28fc6105612b3893c405d27f730 0.0s done
+[2025-09-23T20:52:08.121+0000] {subprocess.py:106} INFO - #5 DONE 0.0s
+[2025-09-23T20:52:08.121+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:08.122+0000] {subprocess.py:106} INFO - #6 [api 3/5] COPY requirements.txt .
+[2025-09-23T20:52:08.122+0000] {subprocess.py:106} INFO - #6 CACHED
+[2025-09-23T20:52:08.123+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:08.123+0000] {subprocess.py:106} INFO - #7 [api 4/5] RUN pip install --no-cache-dir -r requirements.txt
+[2025-09-23T20:52:08.124+0000] {subprocess.py:106} INFO - #7 CACHED
+[2025-09-23T20:52:08.124+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:08.125+0000] {subprocess.py:106} INFO - #8 [api 2/5] WORKDIR /app
+[2025-09-23T20:52:08.125+0000] {subprocess.py:106} INFO - #8 CACHED
+[2025-09-23T20:52:08.126+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:08.126+0000] {subprocess.py:106} INFO - #9 [api 5/5] COPY main.py .
+[2025-09-23T20:52:08.127+0000] {subprocess.py:106} INFO - #9 CACHED
+[2025-09-23T20:52:08.129+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:08.130+0000] {subprocess.py:106} INFO - #10 [api] exporting to image
+[2025-09-23T20:52:08.131+0000] {subprocess.py:106} INFO - #10 exporting layers done
+[2025-09-23T20:52:08.281+0000] {subprocess.py:106} INFO - #10 exporting manifest sha256:1181bbbf188104c9b72cb7a4b2576a16324961a8a400b6cbb89476beb8892567 0.0s done
+[2025-09-23T20:52:08.293+0000] {subprocess.py:106} INFO - #10 exporting config sha256:6aba02f92f2678889022da532e9cdcd4a3e3d2d98ebb364e58680ff23fa3269b 0.0s done
+[2025-09-23T20:52:08.297+0000] {subprocess.py:106} INFO - #10 exporting attestation manifest sha256:f0d0042fb50ecec0282b5024abe3b1d16cab266df2c56dffa7423bc2d1454770 0.0s done
+[2025-09-23T20:52:08.301+0000] {subprocess.py:106} INFO - #10 exporting manifest list sha256:5d6359f51f850d5451a3d06fe3c44db27bd4bc709b350d1385879beb737a50b6 0.0s done
+[2025-09-23T20:52:08.303+0000] {subprocess.py:106} INFO - #10 naming to docker.io/library/wine-api:latest done
+[2025-09-23T20:52:08.304+0000] {subprocess.py:106} INFO - #10 unpacking to docker.io/library/wine-api:latest 0.0s done
+[2025-09-23T20:52:08.309+0000] {subprocess.py:106} INFO - #10 DONE 0.2s
+[2025-09-23T20:52:08.507+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:08.508+0000] {subprocess.py:106} INFO - #11 [api] resolving provenance for metadata file
+[2025-09-23T20:52:08.656+0000] {subprocess.py:106} INFO - #11 DONE 0.1s
+[2025-09-23T20:52:08.860+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:08.861+0000] {subprocess.py:106} INFO - #12 [app internal] load build definition from Dockerfile
+[2025-09-23T20:52:08.861+0000] {subprocess.py:106} INFO - #12 transferring dockerfile: 232B 0.0s done
+[2025-09-23T20:52:08.861+0000] {subprocess.py:106} INFO - #12 DONE 0.0s
+[2025-09-23T20:52:08.863+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:08.864+0000] {subprocess.py:106} INFO - #2 [app internal] load metadata for docker.io/library/python:3.10-slim
+[2025-09-23T20:52:08.936+0000] {subprocess.py:106} INFO - #2 DONE 2.0s
+[2025-09-23T20:52:09.041+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:09.042+0000] {subprocess.py:106} INFO - #13 [app internal] load .dockerignore
+[2025-09-23T20:52:09.043+0000] {subprocess.py:106} INFO - #13 transferring context: 2B done
+[2025-09-23T20:52:09.044+0000] {subprocess.py:106} INFO - #13 DONE 0.0s
+[2025-09-23T20:52:09.048+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:09.049+0000] {subprocess.py:106} INFO - #5 [app 1/5] FROM docker.io/library/python:3.10-slim@sha256:f8081b61393cc16b2339d377bb523a5646cdd28fc6105612b3893c405d27f730
+[2025-09-23T20:52:09.050+0000] {subprocess.py:106} INFO - #5 resolve docker.io/library/python:3.10-slim@sha256:f8081b61393cc16b2339d377bb523a5646cdd28fc6105612b3893c405d27f730 0.0s done
+[2025-09-23T20:52:09.050+0000] {subprocess.py:106} INFO - #5 DONE 0.1s
+[2025-09-23T20:52:09.054+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:09.055+0000] {subprocess.py:106} INFO - #14 [app internal] load build context
+[2025-09-23T20:52:09.055+0000] {subprocess.py:106} INFO - #14 transferring context: 1.90kB 0.0s done
+[2025-09-23T20:52:09.056+0000] {subprocess.py:106} INFO - #14 DONE 0.1s
+[2025-09-23T20:52:09.154+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:09.156+0000] {subprocess.py:106} INFO - #8 [app 2/5] WORKDIR /app
+[2025-09-23T20:52:09.157+0000] {subprocess.py:106} INFO - #8 CACHED
+[2025-09-23T20:52:09.157+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:09.164+0000] {subprocess.py:106} INFO - #15 [app 3/5] COPY requirements.txt .
+[2025-09-23T20:52:09.165+0000] {subprocess.py:106} INFO - #15 CACHED
+[2025-09-23T20:52:09.165+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:09.166+0000] {subprocess.py:106} INFO - #16 [app 4/5] RUN pip install --no-cache-dir -r requirements.txt
+[2025-09-23T20:52:09.167+0000] {subprocess.py:106} INFO - #16 CACHED
+[2025-09-23T20:52:09.168+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:09.170+0000] {subprocess.py:106} INFO - #17 [app 5/5] COPY app.py .
+[2025-09-23T20:52:09.171+0000] {subprocess.py:106} INFO - #17 CACHED
+[2025-09-23T20:52:09.171+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:09.172+0000] {subprocess.py:106} INFO - #18 [app] exporting to image
+[2025-09-23T20:52:09.179+0000] {subprocess.py:106} INFO - #18 exporting layers done
+[2025-09-23T20:52:09.180+0000] {subprocess.py:106} INFO - #18 exporting manifest sha256:ed39c8a1281e8641f8221aa358161ed4a853cfca766b2391723ef213149408a1 0.0s done
+[2025-09-23T20:52:09.181+0000] {subprocess.py:106} INFO - #18 exporting config sha256:6f0abffb2ffefdf85f78ba18149c8f66629e2f426c54fc38cab1a328af33f1f1 0.0s done
+[2025-09-23T20:52:09.182+0000] {subprocess.py:106} INFO - #18 exporting attestation manifest sha256:cd1e38278c83b2ba1adaaf6dc86af9342ea9c2ad6bbf49719bd86db39b3825a0 0.0s done
+[2025-09-23T20:52:09.182+0000] {subprocess.py:106} INFO - #18 exporting manifest list sha256:5ed14183629137e25746830a04053e061328866eee0a8aa6cf585a82bdac29b4 0.0s done
+[2025-09-23T20:52:09.186+0000] {subprocess.py:106} INFO - #18 naming to docker.io/library/wine-app:latest done
+[2025-09-23T20:52:09.188+0000] {subprocess.py:106} INFO - #18 unpacking to docker.io/library/wine-app:latest 0.0s done
+[2025-09-23T20:52:09.310+0000] {subprocess.py:106} INFO - #18 DONE 0.2s
+[2025-09-23T20:52:09.312+0000] {subprocess.py:106} INFO - 
+[2025-09-23T20:52:09.313+0000] {subprocess.py:106} INFO - #19 [app] resolving provenance for metadata file
+[2025-09-23T20:52:09.322+0000] {subprocess.py:106} INFO - #19 DONE 0.0s
+[2025-09-23T20:52:09.323+0000] {subprocess.py:106} INFO -  api  Built
+[2025-09-23T20:52:09.325+0000] {subprocess.py:106} INFO -  app  Built
+[2025-09-23T20:52:09.332+0000] {subprocess.py:106} INFO -  Network wine_wine_network  Creating
+[2025-09-23T20:52:09.435+0000] {subprocess.py:106} INFO -  Network wine_wine_network  Created
+[2025-09-23T20:52:09.437+0000] {subprocess.py:106} INFO -  Container wine-api-1  Creating
+[2025-09-23T20:52:10.058+0000] {subprocess.py:106} INFO -  Container wine-api-1  Created
+[2025-09-23T20:52:10.059+0000] {subprocess.py:106} INFO -  Container wine-app-1  Creating
+[2025-09-23T20:52:10.223+0000] {subprocess.py:106} INFO -  Container wine-app-1  Created
+[2025-09-23T20:52:10.277+0000] {subprocess.py:106} INFO -  Container wine-api-1  Starting
+[2025-09-23T20:52:10.286+0000] {subprocess.py:106} INFO - Error response from daemon: mounts denied:
+[2025-09-23T20:52:10.288+0000] {subprocess.py:106} INFO - The path /opt/***/models is not shared from the host and is not known to Docker.
+[2025-09-23T20:52:10.289+0000] {subprocess.py:106} INFO - You can configure shared paths from Docker -> Preferences... -> Resources -> File Sharing.
+[2025-09-23T20:52:10.289+0000] {subprocess.py:106} INFO - See https://docs.docker.com/go/mac-file-sharing/ for more info.
+[2025-09-23T20:52:10.295+0000] {subprocess.py:110} INFO - Command exited with return code 1
+[2025-09-23T20:52:10.334+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/providers/standard/operators/bash.py", line 232, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2025-09-23T20:52:10.367+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=wine_pipeline, task_id=stage3_deploy_compose, run_id=scheduled__2025-09-23T20:45:00+00:00, execution_date=20250923T204500, start_date=20250923T205205, end_date=20250923T205210
+[2025-09-23T20:52:10.423+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-09-23T20:52:10.426+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 248 for task stage3_deploy_compose (Bash command failed. The command returned a non-zero exit code 1.; 465)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/providers/standard/operators/bash.py", line 232, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2025-09-23T20:52:10.475+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-09-23T20:52:10.512+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-09-23T20:52:10.514+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

@@ -1,0 +1,10 @@
+artifact_location: file:///opt/airflow/mlruns/623309560186714846/models/m-c30631e30be8498baba8a3b3551e189d/artifacts
+creation_timestamp: 1758659418306
+experiment_id: '623309560186714846'
+last_updated_timestamp: 1758659423378
+model_id: m-c30631e30be8498baba8a3b3551e189d
+model_type: null
+name: model
+source_run_id: 335aef2d993d420ab9b0275811e63e81
+status: 2
+status_message: null
