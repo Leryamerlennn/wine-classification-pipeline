@@ -1,4 +1,4 @@
-# services/airflow/dags/wine_pipeline.py
+
 from pathlib import Path
 from datetime import timedelta
 import subprocess
@@ -10,10 +10,10 @@ from airflow.providers.standard.operators.python import PythonOperator
 
 from data_processing import load_and_clean_data
 
-# Пути внутри контейнера Airflow
+
 PROCESSED_DIR = Path("/opt/airflow/data/processed")
-TRAIN_SCRIPT = "/opt/airflow/code/models/train_model.py"          # строка ОК
-COMPOSE_FILE = "/opt/airflow/code/deployment/docker-compose.yml"  # строка ОК
+TRAIN_SCRIPT = "/opt/airflow/code/models/train_model.py"         
+COMPOSE_FILE = "/opt/airflow/code/deployment/docker-compose.yml"  
 
 REQUIRED_FILES = [
     PROCESSED_DIR / "X_train.csv",
@@ -29,9 +29,11 @@ def ensure_processed_data_available():
     return True
 
 def run_training():
-    subprocess.run(["python", TRAIN_SCRIPT], check=True)
+    subprocess.run(["python", TRAIN_SCRIPT], check=True) 
 
 DEPLOY_CMD = f"docker compose -f {COMPOSE_FILE} up -d --build"
+CLEANUP_CMD = f"docker compose -f {COMPOSE_FILE} down --remove-orphans"  
+
 
 with DAG(
     dag_id="wine_pipeline",
@@ -46,6 +48,14 @@ with DAG(
     wait_files = PythonOperator(task_id="wait_processed_files", python_callable=ensure_processed_data_available,
                                 retries=10, retry_delay=timedelta(seconds=30))
     stage2 = PythonOperator(task_id="stage2_train_model", python_callable=run_training)
+    cleanup = BashOperator(
+        task_id="stage3_cleanup_containers",
+        bash_command=CLEANUP_CMD,
+        env={"COMPOSE_PROJECT_NAME": "wine"},
+        retries=3,
+        retry_delay=timedelta(minutes=1)
+    )
+
     stage3 = BashOperator(task_id="stage3_deploy_compose", bash_command=DEPLOY_CMD,
                           env={"COMPOSE_PROJECT_NAME": "wine"}, retries=3, retry_delay=timedelta(minutes=1))
-    stage1 >> wait_files >> stage2 >> stage3
+    stage1 >> wait_files >> stage2 >> cleanup >> stage3

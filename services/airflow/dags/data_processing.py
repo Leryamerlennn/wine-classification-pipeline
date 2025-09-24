@@ -5,7 +5,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from airflow import DAG
 from airflow.providers.standard.operators.python import PythonOperator
-# Корень репозитория в контейнере
 REPO_ROOT = Path("/opt/airflow")
 RAW_CSV = REPO_ROOT / "data" / "raw" / "wine.csv"
 PROCESSED_DIR = REPO_ROOT / "data" / "processed"
@@ -17,7 +16,6 @@ def load_and_clean_data(test_size: float = 0.2, random_state: int = 42) -> None:
     df = pd.read_csv(RAW_CSV)
     df = df.drop_duplicates().reset_index(drop=True)
 
-    # базовая очистка
     target_col = "Wine"
     cols = [c.strip() for c in df.columns]
     df.columns = cols

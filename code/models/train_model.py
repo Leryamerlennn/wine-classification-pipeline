@@ -21,7 +21,6 @@ from mlflow.models.signature import infer_signature
 import matplotlib.pyplot as plt
 import joblib
 
-# --------- Paths ---------
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_PROCESSED = REPO_ROOT / "data" / "processed"
 MODELS_DIR = REPO_ROOT / "models"
@@ -34,7 +33,6 @@ Y_TRAIN = DATA_PROCESSED / "y_train.csv"
 X_TEST  = DATA_PROCESSED / "X_test.csv"
 Y_TEST  = DATA_PROCESSED / "y_test.csv"
 
-# --------- Logging setup ---------
 def setup_logging():
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
     log_path = LOGS_DIR / "train_model.log"
@@ -44,7 +42,6 @@ def setup_logging():
 
     logger = logging.getLogger("train_model")
     logger.setLevel(logging.INFO)
-    # avoid duplicate handlers in Airflow workers
     if not logger.handlers:
         logger.addHandler(handler)
         stream = logging.StreamHandler()
@@ -54,7 +51,6 @@ def setup_logging():
 
 logger = setup_logging()
 
-# --------- Utils ---------
 def ensure_dirs():
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
     MLRUNS_DIR.mkdir(parents=True, exist_ok=True)
@@ -99,7 +95,6 @@ def plot_and_save_confusion_matrix(y_true, y_pred, out_path: Path):
 def main():
     ensure_dirs()
 
-    # MLflow local file store. Без устаревших параметров.
     mlflow.set_tracking_uri(f"file:{MLRUNS_DIR.as_posix()}")
     mlflow.set_experiment("wine_random_forest")
 
@@ -118,17 +113,14 @@ def main():
 
         model = build_pipeline(**params)
 
-        # CV on train
         cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
         cv_acc = cross_val_score(model, X_train, y_train, scoring="accuracy", cv=cv, n_jobs=-1)
         mlflow.log_metric("cv_accuracy_mean", float(cv_acc.mean()))
         mlflow.log_metric("cv_accuracy_std", float(cv_acc.std()))
         logger.info("CV acc mean=%.5f std=%.5f", cv_acc.mean(), cv_acc.std())
 
-        # Fit
         model.fit(X_train, y_train)
 
-        # Test metrics
         y_pred = model.predict(X_test)
         metrics = {
             "accuracy": float(accuracy_score(y_test, y_pred)),
@@ -138,7 +130,6 @@ def main():
         mlflow.log_metrics(metrics)
         logger.info("Test metrics: %s", metrics)
 
-        # Reports
         report = classification_report(y_test, y_pred, output_dict=True)
         report_path = REPORTS_DIR / "classification_report.json"
         with open(report_path, "w") as f:
@@ -150,15 +141,12 @@ def main():
         mlflow.log_artifact(cm_path.as_posix(), artifact_path="figures")
         logger.info("Confusion matrix:\n%s", cm)
 
-        # Params
         mlflow.log_params(params)
 
-        # Signature on float copy to avoid integer-NaN warning
         X_sig = X_train.astype("float64")
         signature = infer_signature(X_sig, model.predict(X_train))
         input_example = X_sig.head(3)
 
-        # Log model using sklearn flavor (нет предупреждения про artifact_path)
         mlflow.sklearn.log_model(
             sk_model=model,
             artifact_path="model",
@@ -166,13 +154,10 @@ def main():
             input_example=input_example,
         )
 
-        # --------- Packaging for API/Streamlit ---------
-        # 1) Модель
         model_path = MODELS_DIR / "wine_model.pkl"
         joblib.dump(model, model_path)
         mlflow.log_artifact(model_path.as_posix(), artifact_path="exported")
 
-        # 2) Имена фич отдельно
         feat_path = MODELS_DIR / "feature_names.pkl"
         joblib.dump(feature_names, feat_path)
         mlflow.log_artifact(feat_path.as_posix(), artifact_path="exported")
@@ -181,7 +166,6 @@ def main():
         logger.info("Saved feature names: %s", feat_path)
         logger.info("MLflow artifact store: %s", MLRUNS_DIR)
 
-        # дубль метрик в логи JSON
         metrics_path = LOGS_DIR / "last_metrics.json"
         with open(metrics_path, "w") as f:
             json.dump(metrics, f, indent=2)

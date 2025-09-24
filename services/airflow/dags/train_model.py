@@ -7,7 +7,6 @@ import pendulum
 from datetime import timedelta
 from airflow import DAG
 from airflow.providers.standard.operators.python import PythonOperator
-# Пути в контейнере Airflow
 REPO_ROOT = Path("/opt/airflow")
 TRAIN_SCRIPT = REPO_ROOT / "code" / "models" / "train_model.py"
 DATA_PROCESSED = REPO_ROOT / "data" / "processed"
@@ -26,7 +25,6 @@ def ensure_processed_data_available():
     return True
 
 def run_training():
-    # Важно: работаем из корня репо, чтобы относительные пути в скрипте были валидны
     subprocess.run(
         ["python", "-u", str(TRAIN_SCRIPT)],
         check=True,
