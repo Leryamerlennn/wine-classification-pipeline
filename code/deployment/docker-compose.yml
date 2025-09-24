@@ -1,27 +1,92 @@
 version: "3.8"
+
+x-airflow-common: &airflow-common
+  build:
+    context: ../../services/airflow
+    dockerfile: Dockerfile
+  environment:
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+    AIRFLOW__CORE__ENABLE_XCOM_PICKLING: "true"
+  volumes:
+    - ../../services/airflow/dags:/opt/airflow/dags
+    - ../../services/airflow/logs:/opt/airflow/logs
+    - ../..:/opt/airflow:rw
+    - /var/run/docker.sock:/var/run/docker.sock
+  user: "${AIRFLOW_UID:-50000}:0"
+  networks:
+    - wine_network
+
 services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow -d airflow || exit 1"]
+      interval: 5s
+      retries: 10
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    networks:
+      - wine_network
+
+  airflow-init:
+    <<: *airflow-common
+    entrypoint: >
+      bash -lc "airflow db init && airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com --password admin || true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+
   api:
     build:
       context: ./api
     ports:
       - "8000:8000"
     volumes:
-      - ../../models:/app/models # relative path (two levels up from the deploy folder)
+      - ../../models:/app/models
     networks:
       - wine_network
-    
 
   app:
     build:
       context: ./app
     ports:
       - "8501:8501"
-    networks:
-      - wine_network
     depends_on:
       - api
     volumes:
       - ../../models:/app/models
+    networks:
+      - wine_network
+
+volumes:
+  postgres-db-volume:
 
 networks:
   wine_network:

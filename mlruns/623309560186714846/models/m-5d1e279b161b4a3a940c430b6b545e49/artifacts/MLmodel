@@ -1,0 +1,42 @@
+artifact_path: file:///opt/airflow/mlruns/623309560186714846/models/m-5d1e279b161b4a3a940c430b6b545e49/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.11.10
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+is_signature_from_type_hint: false
+mlflow_version: 3.4.0
+model_id: m-5d1e279b161b4a3a940c430b6b545e49
+model_size_bytes: 616197
+model_uuid: m-5d1e279b161b4a3a940c430b6b545e49
+prompts: null
+run_id: a2da4f8e69d94d169892b688df841758
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "double", "name": "Alcohol", "required": true}, {"type": "double",
+    "name": "Malic.acid", "required": true}, {"type": "double", "name": "Ash", "required":
+    true}, {"type": "double", "name": "Acl", "required": true}, {"type": "double",
+    "name": "Mg", "required": true}, {"type": "double", "name": "Phenols", "required":
+    true}, {"type": "double", "name": "Flavanoids", "required": true}, {"type": "double",
+    "name": "Nonflavanoid.phenols", "required": true}, {"type": "double", "name":
+    "Proanth", "required": true}, {"type": "double", "name": "Color.int", "required":
+    true}, {"type": "double", "name": "Hue", "required": true}, {"type": "double",
+    "name": "OD", "required": true}, {"type": "double", "name": "Proline", "required":
+    true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-09-24 08:50:17.481799'

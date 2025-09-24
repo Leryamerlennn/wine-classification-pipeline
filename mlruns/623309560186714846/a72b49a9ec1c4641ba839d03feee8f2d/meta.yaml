@@ -1,0 +1,14 @@
+artifact_uri: file:///opt/airflow/mlruns/623309560186714846/a72b49a9ec1c4641ba839d03feee8f2d/artifacts
+end_time: 1758703523392
+entry_point_name: ''
+experiment_id: '623309560186714846'
+lifecycle_stage: active
+run_id: a72b49a9ec1c4641ba839d03feee8f2d
+run_name: rf_baseline
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1758703510771
+status: 3
+tags: []
+user_id: airflow
